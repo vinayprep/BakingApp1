@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.LoadControl;
@@ -37,9 +39,12 @@ import com.udacity.bakingapp.pojo.Recipes;
 import com.udacity.bakingapp.pojo.Steps;
 
 public class RecipeStepsFragment extends Fragment {
+    private static final String TAG = RecipeStepsFragment.class.getSimpleName();
     Steps[] steps;
     Recipes recipe;
     String recipeName;
+    long position = C.TIME_UNSET;
+    Uri videoUri;
     private SimpleExoPlayerView simpleExoPlayerView;
     private SimpleExoPlayer player;
     private BandwidthMeter bandwidthMeter;
@@ -58,27 +63,35 @@ public class RecipeStepsFragment extends Fragment {
         bandwidthMeter = new DefaultBandwidthMeter();
 
         itemClickListener = (RecipeDetailActivity) getActivity();
+        Log.d(TAG, "1...............................................");
 
         if (savedInstanceState != null) {
             steps = (Steps[]) savedInstanceState.getSerializable("steps");
+            recipe = (Recipes) savedInstanceState.getSerializable("recipe");
+            Log.d(TAG, "4...............................................");
             selectedIndex = savedInstanceState.getInt("index");
             recipeName = savedInstanceState.getString("recipeName");
-
-
+            position = savedInstanceState.getLong("position", C.TIME_UNSET);
         } else {
             steps = (Steps[]) getArguments().getSerializable("steps");
+            recipe = (Recipes) getArguments().getSerializable("recipes");
+            if (recipe != null) {
+                Log.d(TAG, "2..............................................." + recipe.getName());
+            }
             if (steps != null) {
                 steps = (Steps[]) getArguments().getSerializable("steps");
                 selectedIndex = getArguments().getInt("index");
                 recipeName = getArguments().getString("recipeName");
             } else {
-                recipe = (Recipes) getArguments().getSerializable("recipes");
                 //casting List to ArrayList
-                steps = recipe.getSteps();
+                if (recipe != null) {
+                    steps = recipe.getSteps();
+                }
                 selectedIndex = 0;
             }
 
         }
+        Log.d(TAG, "3...............................................");
 
 
         View rootView = inflater.inflate(R.layout.fragment_recipe_steps, container, false);
@@ -97,18 +110,24 @@ public class RecipeStepsFragment extends Fragment {
         }
 
         String imageUrl = steps[selectedIndex].getThumbnailURL();
+        ImageView thumbImage = rootView.findViewById(R.id.thumbImage);
         if (imageUrl != "") {
             Uri builtUri = Uri.parse(imageUrl).buildUpon().build();
-            ImageView thumbImage = rootView.findViewById(R.id.thumbImage);
             Picasso.with(getContext()).load(builtUri).into(thumbImage);
+        } else {
+            if (recipe.getImage() != null) {
+                imageUrl = recipe.getImage();
+                Uri builtUri = Uri.parse(imageUrl).buildUpon().build();
+                Picasso.with(getContext()).load(builtUri).into(thumbImage);
+            }
         }
 
         if (!videoURL.isEmpty()) {
 
+            videoUri = Uri.parse(steps[selectedIndex].getVideoURL());
+            initializePlayer(videoUri);
 
-            initializePlayer(Uri.parse(steps[selectedIndex].getVideoURL()));
-
-            if (rootView.findViewWithTag("sw600dp-land-recipe_step_detail") != null) {
+            if (rootView.findViewWithTag("sw600dp-land-recipe_step_detail") != null || rootView.findViewWithTag("phone-land") != null) {
                 getActivity().findViewById(R.id.fragment_container2).setLayoutParams(new LinearLayout.LayoutParams(-1, -2));
                 simpleExoPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FIXED_WIDTH);
             } else if (isInLandscapeMode(getContext())) {
@@ -155,6 +174,7 @@ public class RecipeStepsFragment extends Fragment {
         });
 
 
+
         return rootView;
     }
 
@@ -169,6 +189,10 @@ public class RecipeStepsFragment extends Fragment {
 
             String userAgent = Util.getUserAgent(getContext(), "Baking App");
             MediaSource mediaSource = new ExtractorMediaSource(mediaUri, new DefaultDataSourceFactory(getContext(), userAgent), new DefaultExtractorsFactory(), null, null);
+
+            if (position != C.TIME_UNSET) {
+                player.seekTo(position);
+            }
             player.prepare(mediaSource);
             player.setPlayWhenReady(true);
         }
@@ -178,8 +202,10 @@ public class RecipeStepsFragment extends Fragment {
     public void onSaveInstanceState(Bundle currentState) {
         super.onSaveInstanceState(currentState);
         currentState.putSerializable("steps", steps);
+        currentState.putSerializable("recipe", recipe);
         currentState.putInt("index", selectedIndex);
         currentState.putString("recipeName", recipeName);
+        currentState.putLong("position", position);
     }
 
     public boolean isInLandscapeMode(Context context) {
@@ -218,9 +244,18 @@ public class RecipeStepsFragment extends Fragment {
     public void onPause() {
         super.onPause();
         if (player != null) {
+            position = player.getCurrentPosition();
             player.stop();
             player.release();
+            player = null;
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (videoUri != null)
+            initializePlayer(videoUri);
     }
 
     public interface ListItemClickListener {

@@ -38,7 +38,7 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeSte
                     .replace(R.id.fragment_container, fragment).addToBackStack("STACK_RECIPE_DETAIL")
                     .commit();
 
-            if (findViewById(R.id.recipe_linear_layout).getTag() != null && findViewById(R.id.recipe_linear_layout).getTag().equals("tablet-land")) {
+            if (findViewById(R.id.recipe_detail).getTag() != null && findViewById(R.id.recipe_detail).getTag().equals("tablet-land")) {
 
                 final RecipeStepsFragment fragment2 = new RecipeStepsFragment();
                 fragment2.setArguments(selectedRecipeBundle);
@@ -52,6 +52,7 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeSte
         } else {
             recipeName = savedInstanceState.getString("recipeName");
         }
+
 
 
         Toolbar myToolbar = findViewById(R.id.my_toolbar);
@@ -83,6 +84,13 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeSte
         });
     }
 
+
+    @Override
+    public void onSaveInstanceState(Bundle currentState) {
+        super.onSaveInstanceState(currentState);
+        currentState.putString("recipeName", recipeName);
+    }
+
     @Override
     public void onListItemClick(Steps[] stepsOut, int selectedItemIndex, String recipeName) {
 
@@ -94,11 +102,12 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeSte
 
         Bundle stepBundle = new Bundle();
         stepBundle.putSerializable("steps", stepsOut);
+        stepBundle.putSerializable("recipes", recipes);
         stepBundle.putInt("index", selectedItemIndex);
         stepBundle.putString("recipeName", recipeName);
         fragment.setArguments(stepBundle);
 
-        if (findViewById(R.id.recipe_linear_layout).getTag() != null && findViewById(R.id.recipe_linear_layout).getTag().equals("tablet-land")) {
+        if (findViewById(R.id.recipe_detail).getTag() != null && findViewById(R.id.recipe_detail).getTag().equals("tablet-land")) {
             fragmentManager.beginTransaction()
                     .replace(R.id.fragment_container2, fragment).addToBackStack("STACK_RECIPE_STEP_DETAIL")
                     .commit();

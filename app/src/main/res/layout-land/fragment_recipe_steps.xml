@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    android:padding="0dp">
+    android:padding="0dp"
+    android:tag="phone-land">
 
     <com.google.android.exoplayer2.ui.SimpleExoPlayerView
         android:id="@+id/playerView"
@@ -42,6 +43,7 @@
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_margin="10dp"
+            android:background="@drawable/ic_navigate_before_black_18dp"
             android:elevation="6dp"
             android:padding="40dp" />
 
@@ -50,6 +52,7 @@
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_margin="10dp"
+            android:background="@drawable/ic_navigate_next_black_18dp"
             android:padding="40dp" />
     </LinearLayout>
 

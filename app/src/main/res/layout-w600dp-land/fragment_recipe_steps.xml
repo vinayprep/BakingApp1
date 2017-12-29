@@ -54,6 +54,7 @@
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_margin="10dp"
+            android:background="@drawable/ic_navigate_before_black_18dp"
             android:elevation="6dp"
             android:padding="40dp" />
 
@@ -62,6 +63,7 @@
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_margin="10dp"
+            android:background="@drawable/ic_navigate_next_black_18dp"
             android:padding="40dp" />
     </LinearLayout>
 

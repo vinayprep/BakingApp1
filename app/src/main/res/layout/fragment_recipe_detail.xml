@@ -9,6 +9,7 @@
 
 
     <ScrollView
+        android:id="@+id/ingredients_scroll_view"
         style="@android:style/Widget.Holo.ScrollView"
         android:layout_width="match_parent"
         android:layout_height="150dp"

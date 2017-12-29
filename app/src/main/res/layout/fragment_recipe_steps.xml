@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:tag="phone-port">
 
 
     <com.google.android.exoplayer2.ui.SimpleExoPlayerView
@@ -43,6 +44,7 @@
             android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
+            android:background="@drawable/ic_navigate_before_black_18dp"
             android:backgroundTintMode="src_over"
             android:elevation="6dp"
             android:padding="40dp" />
@@ -52,6 +54,7 @@
             android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
+            android:background="@drawable/ic_navigate_next_black_18dp"
             android:backgroundTintMode="src_over"
             android:padding="40dp" />
     </LinearLayout>
