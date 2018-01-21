@@ -15,11 +15,8 @@ import com.udacity.bakingapp.pojo.Recipes;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Rats on 14/6/2017.
- */
 
-public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.BrandViewHolder> {
+public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder> {
     private static final String TAG = RecipeAdapter.class.getSimpleName();
     private List<Recipes> mSortedList = new ArrayList<Recipes>();
 
@@ -58,13 +55,13 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.BrandViewH
     }
 
     @Override
-    public BrandViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecipeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recipe_master, parent, false);
-        return new BrandViewHolder(v);
+        return new RecipeViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(BrandViewHolder holder, int position) {
+    public void onBindViewHolder(RecipeViewHolder holder, int position) {
         String recipes = mSortedList.get(position).getName();
         holder.recipeName.setText(recipes);
     }
@@ -74,12 +71,12 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.BrandViewH
         return mSortedList.size();
     }
 
-    class BrandViewHolder extends RecyclerView.ViewHolder {
+    class RecipeViewHolder extends RecyclerView.ViewHolder {
 
         TextView recipeName;
         LinearLayout recipePage;
 
-        BrandViewHolder(View itemView) {
+        RecipeViewHolder(View itemView) {
             super(itemView);
             recipeName = itemView.findViewById(R.id.recipe_name);
             recipePage = itemView.findViewById(R.id.recipe_page);

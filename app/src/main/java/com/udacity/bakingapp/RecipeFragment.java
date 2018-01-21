@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.udacity.bakingapp.IdlingResource.SimpleIdlingResource;
 import com.udacity.bakingapp.adapters.RecipeAdapter;
 import com.udacity.bakingapp.model.RestClient;
 import com.udacity.bakingapp.pojo.Recipes;
@@ -30,7 +29,6 @@ public class RecipeFragment extends Fragment {
 
     private static final String TAG = RecipeAdapter.class.getSimpleName();
     ArrayList<Recipes> recipes = new ArrayList<Recipes>();
-    SimpleIdlingResource idlingResource;
     private List<Recipes> mModels;
     private RecipeAdapter mAdapter;
     private RecyclerView recyclerView;
@@ -56,15 +54,6 @@ public class RecipeFragment extends Fragment {
             LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext());
             recyclerView.setLayoutManager(mLayoutManager);
         }
-
-
-        idlingResource = (SimpleIdlingResource) ((MainActivity) getActivity()).getIdlingResource();
-
-        if (idlingResource != null) {
-            idlingResource.setIdleState(false);
-        }
-
-
         getReceipes();
 
         return rootView;
@@ -143,9 +132,6 @@ public class RecipeFragment extends Fragment {
         mModels.addAll(recipes);
         mAdapter.replaceAll(mModels);
         recyclerView.scrollToPosition(0);
-        if (idlingResource != null) {
-            idlingResource.setIdleState(true);
-        }
     }
 
 

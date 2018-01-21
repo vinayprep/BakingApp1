@@ -17,7 +17,6 @@ import com.udacity.bakingapp.adapters.RecipeDetailsAdapter;
 import com.udacity.bakingapp.pojo.Ingredients;
 import com.udacity.bakingapp.pojo.Recipes;
 import com.udacity.bakingapp.pojo.Steps;
-import com.udacity.bakingapp.widget.UpdateBakingService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,7 +25,8 @@ import java.util.List;
 
 public class RecipeDetailFragment extends Fragment {
 
-    public static final String MY_PREFS_NAME = "MyPrefsFile";
+    public static final String key = "12ab34cd";
+    private static final String MY_PREFS_NAME = "MY_PREFENCES";
     private static final String RECIPE = "RECIPE";
     private static final String RECIPE_INGREDIENTS = "RECIPE_INGREDIENTS";
     private static final String RECIPE_STEPS = "RECIPE_STEPS";
@@ -70,18 +70,23 @@ public class RecipeDetailFragment extends Fragment {
         mScrollView = rootView.findViewById(R.id.ingredients_scroll_view);
 
         sharedpreferences = getActivity().getSharedPreferences(MY_PREFS_NAME, Context.MODE_PRIVATE);
-
         ArrayList<String> recipeIngredients = new ArrayList<>();
+        String value = "";
 
         for (int i = 0; i < ingredients.length; i++) {
-            textView.append("\u2022 " + ingredients[i].getIngredient() + "\n");
-            textView.append("\t\t\t Quantity: " + ingredients[i].getQuantity() + "\n");
-            textView.append("\t\t\t Measure: " + ingredients[i].getMeasure() + "\n\n");
-
             recipeIngredients.add(ingredients[i].getIngredient() + "\n" +
                     "Quantity: " + ingredients[i].getQuantity() + "\n" +
-                    "Measure: " + ingredients[i].getMeasure() + "\n");
+                    "Measure: " + ingredients[i].getMeasure() + "\n\n");
+            value += ingredients[i].getIngredient() + "\n" +
+                    "Quantity: " + ingredients[i].getQuantity() + "\n" +
+                    "Measure: " + ingredients[i].getMeasure() + "\n\n" + key;
         }
+
+        textView.setText(value.replace(key, ""));
+
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        editor.putString("recipeList", value);
+        editor.apply();
 
         recyclerView = rootView.findViewById(R.id.recipe_detail_recycler);
         mLayoutManager = new LinearLayoutManager(getContext());
@@ -123,8 +128,8 @@ public class RecipeDetailFragment extends Fragment {
                 }
             }, 200);
         }
-//        //update widget
-        UpdateBakingService.startBakingService(getContext(), recipeIngredients);
+        //update widget
+        BakingAppWidgetService.startActionUpdateRecipeList(getContext());
 
         return rootView;
     }

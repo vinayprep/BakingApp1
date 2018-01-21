@@ -1,26 +1,27 @@
-
-package com.udacity.bakingapp.widget;
+package com.udacity.bakingapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
-import com.udacity.bakingapp.R;
-
 import java.util.List;
 
-import static com.udacity.bakingapp.widget.BakingWidgetProvider.ingredientsList;
+import static com.udacity.bakingapp.BakingAppWidget.recipeIngredients;
 
+/**
+ * Created by vinaygharge on 21/01/18.
+ */
 
-public class GridWidgetService extends RemoteViewsService {
-    List<String> remoteViewingredientsList;
+public class GridViewWidgetService extends RemoteViewsService {
+    private static final String TAG = GridViewWidgetService.class.getSimpleName();
+    List<String> ingredients;
 
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
         return new GridRemoteViewsFactory(this.getApplicationContext(), intent);
     }
-
 
     class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
@@ -28,7 +29,6 @@ public class GridWidgetService extends RemoteViewsService {
 
         public GridRemoteViewsFactory(Context context, Intent intent) {
             mContext = context;
-
         }
 
         @Override
@@ -37,31 +37,26 @@ public class GridWidgetService extends RemoteViewsService {
 
         @Override
         public void onDataSetChanged() {
-            remoteViewingredientsList = ingredientsList;
+            ingredients = recipeIngredients;
         }
 
         @Override
         public void onDestroy() {
-
         }
 
         @Override
         public int getCount() {
-
-            return remoteViewingredientsList.size();
+            return ingredients.size();
         }
 
         @Override
         public RemoteViews getViewAt(int position) {
-
-            RemoteViews views = new RemoteViews(mContext.getPackageName(), R.layout.widget_grid_view_item);
-
-            views.setTextViewText(R.id.widget_grid_view_item, remoteViewingredientsList.get(position));
-
+            Log.d(TAG, "8...............");
+            RemoteViews views = new RemoteViews(mContext.getPackageName(), R.layout.ingredients_list_widgets);
+            views.setTextViewText(R.id.widget_ingredient_name, ingredients.get(position));
             Intent fillInIntent = new Intent();
-            //fillInIntent.putExtras(extras);
-            views.setOnClickFillInIntent(R.id.widget_grid_view_item, fillInIntent);
-
+            views.setOnClickFillInIntent(R.id.widget_ingredient_name, fillInIntent);
+            Log.d(TAG, "9...............");
             return views;
         }
 
@@ -85,9 +80,5 @@ public class GridWidgetService extends RemoteViewsService {
             return true;
         }
 
-
     }
-
-
 }
-
