@@ -36,7 +36,7 @@ public class TestActivity {
     public void checkExoPlayer() {
         onView(ViewMatchers.withId(R.id.recipe_recycler_view)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(ViewMatchers.withId(R.id.recipe_detail_recycler)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-        onView(withId(R.id.playerView)).check(matches(isDisplayed()));
+        onView(withId(R.id.player_view)).check(matches(isDisplayed()));
     }
 
 }

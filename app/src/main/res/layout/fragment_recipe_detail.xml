@@ -5,26 +5,17 @@
     android:layout_height="wrap_content"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    android:padding="16dp">
-
+    android:padding="8dp">
 
     <ScrollView
         android:id="@+id/ingredients_scroll_view"
-        style="@android:style/Widget.Holo.ScrollView"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:clipToPadding="false"
-        android:fillViewport="false"
-        android:isScrollContainer="false"
-        android:scrollIndicators="top|bottom"
-        android:scrollbarAlwaysDrawVerticalTrack="false"
-        android:scrollbarStyle="insideInset">
-
+        android:layout_height="200dp">
         <TextView
             android:id="@+id/recipe_detail_text"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:padding="15dp"
+            android:padding="8dp"
             android:textColor="#000000"
             android:textSize="16sp" />
     </ScrollView>
@@ -33,7 +24,7 @@
         android:id="@+id/recipe_detail_recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp" />
+        android:layout_margin="8dp" />
 
 
 </LinearLayout>

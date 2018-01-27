@@ -17,21 +17,20 @@ import com.udacity.bakingapp.adapters.RecipeDetailsAdapter;
 import com.udacity.bakingapp.pojo.Ingredients;
 import com.udacity.bakingapp.pojo.Recipes;
 import com.udacity.bakingapp.pojo.Steps;
+import com.udacity.bakingapp.widget.BakingAppWidgetService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
 public class RecipeDetailFragment extends Fragment {
 
-    public static final String key = "12ab34cd";
-    private static final String MY_PREFS_NAME = "MY_PREFENCES";
-    private static final String RECIPE = "RECIPE";
-    private static final String RECIPE_INGREDIENTS = "RECIPE_INGREDIENTS";
-    private static final String RECIPE_STEPS = "RECIPE_STEPS";
-    private static final String RECIPE_NAME = "RECIPE_NAME";
-    private static final String SCROLL_POSITION = "scroll";
+    public static final String MY_PREFS_NAME = "MY_PREFENCES";
+    public static final String RECIPE = "RECIPE";
+    public static final String RECIPE_NAME = "RECIPE_NAME";
+    public static final String SCROLL_POSITION = "scroll";
+    public static final String RECIPE_INGREDIENTS = "RECIPE_INGREDIENTS";
+    public static final String RECIPE_STEPS = "RECIPE_STEPS";
     String recipeName;
     Ingredients[] ingredients;
     Steps[] steps;
@@ -62,9 +61,6 @@ public class RecipeDetailFragment extends Fragment {
             steps = (Steps[]) getArguments().getSerializable("steps");
             recipeName = getArguments().getString("recipeName");
         }
-
-
-
         View rootView = inflater.inflate(R.layout.fragment_recipe_detail, container, false);
         textView = rootView.findViewById(R.id.recipe_detail_text);
         mScrollView = rootView.findViewById(R.id.ingredients_scroll_view);
@@ -76,17 +72,13 @@ public class RecipeDetailFragment extends Fragment {
         for (int i = 0; i < ingredients.length; i++) {
             recipeIngredients.add(ingredients[i].getIngredient() + "\n" +
                     "Quantity: " + ingredients[i].getQuantity() + "\n" +
-                    "Measure: " + ingredients[i].getMeasure() + "\n\n");
+                    "Measure: " + ingredients[i].getMeasure() + "\n");
             value += ingredients[i].getIngredient() + "\n" +
                     "Quantity: " + ingredients[i].getQuantity() + "\n" +
-                    "Measure: " + ingredients[i].getMeasure() + "\n\n" + key;
+                    "Measure: " + ingredients[i].getMeasure() + "\n\n";
         }
 
-        textView.setText(value.replace(key, ""));
-
-        SharedPreferences.Editor editor = sharedpreferences.edit();
-        editor.putString("recipeList", value);
-        editor.apply();
+        textView.setText(value);
 
         recyclerView = rootView.findViewById(R.id.recipe_detail_recycler);
         mLayoutManager = new LinearLayoutManager(getContext());
@@ -128,9 +120,7 @@ public class RecipeDetailFragment extends Fragment {
                 }
             }, 200);
         }
-        //update widget
-        BakingAppWidgetService.startActionUpdateRecipeList(getContext());
-
+        BakingAppWidgetService.startActionUpdateRecipeList(getContext(), recipeIngredients);
         return rootView;
     }
 

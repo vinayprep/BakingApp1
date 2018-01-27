@@ -8,29 +8,25 @@
     android:padding="16dp"
     android:tag="phone-port">
 
-
     <com.google.android.exoplayer2.ui.SimpleExoPlayerView
-        android:id="@+id/playerView"
+        android:id="@+id/player_view"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:layout_margin="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginRight="0dp"
-        android:layout_marginTop="0dp" />
+        android:layout_marginBottom="16dp" />
 
-    <ImageView
-        android:id="@+id/thumbImage"
-        android:layout_width="wrap_content"
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/image_view"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="left"
-        android:elevation="1dp"
-        android:paddingRight="15dp" />
+        android:layout_margin="16dp"
+        android:fitsSystemWindows="true" />
 
-    <TextView
-        android:id="@+id/recipe_step_detail_text"
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/recipe_steps"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="16dp"
         android:textColor="#000000" />
 
     <LinearLayout
@@ -39,24 +35,21 @@
         android:layout_gravity="center_horizontal"
         android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/previousStep"
-            android:layout_width="70dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/previous_step"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp"
             android:background="@drawable/ic_navigate_before_black_18dp"
-            android:backgroundTintMode="src_over"
-            android:elevation="6dp"
-            android:padding="40dp" />
+            android:padding="48dp" />
 
-        <Button
-            android:id="@+id/nextStep"
-            android:layout_width="70dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/next_step"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp"
             android:background="@drawable/ic_navigate_next_black_18dp"
-            android:backgroundTintMode="src_over"
-            android:padding="40dp" />
+            android:padding="48dp" />
     </LinearLayout>
 
 

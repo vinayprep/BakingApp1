@@ -9,7 +9,6 @@
     android:orientation="vertical"
     android:tag="phone">
 
-
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,7 +24,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <FrameLayout
-        android:id="@+id/fragment_container"
+        android:id="@+id/recipe_ingredients"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerInside" />

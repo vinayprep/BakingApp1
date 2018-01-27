@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Rats on 14/6/2017.
+ * Created by vinaygharge on 23/01/2018.
  */
 
 public class RecipeDetailsAdapter extends RecyclerView.Adapter<RecipeDetailsAdapter.BrandViewHolder> {
@@ -84,7 +84,7 @@ public class RecipeDetailsAdapter extends RecyclerView.Adapter<RecipeDetailsAdap
 
         BrandViewHolder(View itemView) {
             super(itemView);
-            shortDesc = itemView.findViewById(R.id.shortDescription);
+            shortDesc = itemView.findViewById(R.id.steps_description);
             itemView.setOnClickListener(this);
         }
 

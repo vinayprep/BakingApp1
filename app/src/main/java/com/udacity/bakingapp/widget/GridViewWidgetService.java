@@ -1,4 +1,4 @@
-package com.udacity.bakingapp;
+package com.udacity.bakingapp.widget;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,9 +6,11 @@ import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
+import com.udacity.bakingapp.R;
+
 import java.util.List;
 
-import static com.udacity.bakingapp.BakingAppWidget.recipeIngredients;
+import static com.udacity.bakingapp.widget.BakingAppWidget.recipeIngredients;
 
 /**
  * Created by vinaygharge on 21/01/18.
@@ -20,6 +22,7 @@ public class GridViewWidgetService extends RemoteViewsService {
 
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
+        Log.d(TAG, "19...............");
         return new GridRemoteViewsFactory(this.getApplicationContext(), intent);
     }
 
@@ -28,11 +31,13 @@ public class GridViewWidgetService extends RemoteViewsService {
         Context mContext = null;
 
         public GridRemoteViewsFactory(Context context, Intent intent) {
+            Log.d(TAG, "15...............");
             mContext = context;
         }
 
         @Override
         public void onCreate() {
+            Log.d(TAG, "18...............");
         }
 
         @Override
@@ -46,6 +51,7 @@ public class GridViewWidgetService extends RemoteViewsService {
 
         @Override
         public int getCount() {
+            Log.d(TAG, "17..............." + ingredients.size());
             return ingredients.size();
         }
 
@@ -67,6 +73,7 @@ public class GridViewWidgetService extends RemoteViewsService {
 
         @Override
         public int getViewTypeCount() {
+            Log.d(TAG, "20...............");
             return 1;
         }
 

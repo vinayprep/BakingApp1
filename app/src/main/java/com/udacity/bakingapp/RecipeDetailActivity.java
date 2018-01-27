@@ -11,6 +11,9 @@ import com.udacity.bakingapp.pojo.Ingredients;
 import com.udacity.bakingapp.pojo.Recipes;
 import com.udacity.bakingapp.pojo.Steps;
 
+import static com.udacity.bakingapp.RecipeDetailFragment.RECIPE_INGREDIENTS;
+import static com.udacity.bakingapp.RecipeDetailFragment.RECIPE_STEPS;
+
 public class RecipeDetailActivity extends AppCompatActivity implements RecipeStepsFragment.ListItemClickListener, RecipeDetailsAdapter.ListItemClickListener {
 
     private static final String TAG = RecipeDetailActivity.class.getSimpleName();
@@ -23,32 +26,32 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeSte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_detail);
+        ingredients = (Ingredients[]) getIntent().getSerializableExtra("ingredients");
+        steps = (Steps[]) getIntent().getSerializableExtra("steps");
+        recipes = (Recipes) getIntent().getSerializableExtra("recipes");
+        recipeName = getIntent().getStringExtra("recipeName");
         Toolbar toolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(recipeName);
-        ingredients = (Ingredients[]) getIntent().getSerializableExtra("ingredients");
-        steps = (Steps[]) getIntent().getSerializableExtra("steps");
-        recipes = (Recipes) getIntent().getSerializableExtra("recipes");
-        recipeName = getIntent().getStringExtra("recipeName");
         if (savedInstanceState == null) {
 
             Bundle bundle = getIntent().getExtras();
 
-            final RecipeDetailFragment recipeDetailFragment = new RecipeDetailFragment();
+            RecipeDetailFragment recipeDetailFragment = new RecipeDetailFragment();
             recipeDetailFragment.setArguments(bundle);
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, recipeDetailFragment).addToBackStack("STACK_RECIPE_DETAIL")
+                    .replace(R.id.recipe_ingredients, recipeDetailFragment).addToBackStack(RECIPE_INGREDIENTS)
                     .commit();
 
             if (findViewById(R.id.recipe_detail).getTag() != null && findViewById(R.id.recipe_detail).getTag().equals("tablet-land")) {
 
-                final RecipeStepsFragment fragment2 = new RecipeStepsFragment();
-                fragment2.setArguments(bundle);
+                RecipeStepsFragment recipeStepsFragment = new RecipeStepsFragment();
+                recipeStepsFragment.setArguments(bundle);
                 fragmentManager.beginTransaction()
-                        .replace(R.id.fragment_container2, fragment2).addToBackStack("STACK_RECIPE_STEP_DETAIL")
+                        .replace(R.id.recipe_steps, recipeStepsFragment).addToBackStack(RECIPE_STEPS)
                         .commit();
             }
         } else {
@@ -59,14 +62,13 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeSte
             @Override
             public void onClick(View v) {
                 FragmentManager fm = getSupportFragmentManager();
-                if (findViewById(R.id.fragment_container2) == null) {
+                if (findViewById(R.id.recipe_steps) == null) {
                     if (fm.getBackStackEntryCount() > 1) {
-                        fm.popBackStack("STACK_RECIPE_DETAIL", 0);
+                        fm.popBackStack(RECIPE_INGREDIENTS, 0);
                     } else if (fm.getBackStackEntryCount() > 0) {
                         finish();
                     }
                 } else {
-                    //go back to "Recipe" screen
                     finish();
                 }
             }
@@ -83,10 +85,8 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeSte
     @Override
     public void onListItemClick(Steps[] stepsOut, int selectedItemIndex, String recipeName) {
 
-
-        final RecipeStepsFragment recipeStepsFragment = new RecipeStepsFragment();
+        RecipeStepsFragment recipeStepsFragment = new RecipeStepsFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
-
         getSupportActionBar().setTitle(recipeName);
 
         Bundle stepBundle = new Bundle();
@@ -98,12 +98,12 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeSte
 
         if (findViewById(R.id.recipe_detail).getTag() != null && findViewById(R.id.recipe_detail).getTag().equals("tablet-land")) {
             fragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container2, recipeStepsFragment).addToBackStack("STACK_RECIPE_STEP_DETAIL")
+                    .replace(R.id.recipe_steps, recipeStepsFragment).addToBackStack(RECIPE_STEPS)
                     .commit();
 
         } else {
             fragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, recipeStepsFragment).addToBackStack("STACK_RECIPE_STEP_DETAIL")
+                    .replace(R.id.recipe_ingredients, recipeStepsFragment).addToBackStack(RECIPE_STEPS)
                     .commit();
         }
 

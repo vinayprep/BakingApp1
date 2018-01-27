@@ -55,7 +55,6 @@ public class RecipeFragment extends Fragment {
             recyclerView.setLayoutManager(mLayoutManager);
         }
         getReceipes();
-
         return rootView;
     }
 
@@ -133,6 +132,5 @@ public class RecipeFragment extends Fragment {
         mAdapter.replaceAll(mModels);
         recyclerView.scrollToPosition(0);
     }
-
 
 }

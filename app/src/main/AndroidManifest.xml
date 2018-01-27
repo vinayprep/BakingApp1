@@ -23,7 +23,13 @@
             android:name=".RecipeDetailActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <receiver android:name=".BakingAppWidget">
+
+        <service android:name=".widget.BakingAppWidgetService" />
+        <service
+            android:name=".widget.GridViewWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
+        <receiver android:name=".widget.BakingAppWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -32,11 +38,6 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/baking_app_widget_info" />
         </receiver>
-
-        <service android:name=".BakingAppWidgetService"></service>
-        <service
-            android:name=".GridViewWidgetService"
-            android:permission="android.permission.BIND_REMOTEVIEWS" />
 
     </application>
 
