@@ -1,0 +1,5 @@
+<resources>
+    <string name="appwidget_text">It seems that the App has not launched yet. Please launch the app
+        and try again
+    </string>
+</resources>
